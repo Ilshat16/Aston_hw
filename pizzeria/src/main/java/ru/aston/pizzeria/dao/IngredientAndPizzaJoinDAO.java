@@ -17,14 +17,14 @@ public class IngredientAndPizzaJoinDAO {
 		List<IngredientAndPizzaJoin> ingredientsList = new ArrayList<>();
 		
 		try {
-			String query = "SELECT name FROM Ingredients_for_pizza WHERE id=?";
+			String query = "SELECT * FROM Ingredients_for_pizza WHERE pizza_id=?";
 			PreparedStatement ps = connection.prepareStatement(query);
 			ps.setInt(1, id);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
 				IngredientAndPizzaJoin ingredientAndPizzaJoin = new IngredientAndPizzaJoin();
 				ingredientAndPizzaJoin.setPizzaId(id);
-				ingredientAndPizzaJoin.setIngredientId(Integer.parseInt(rs.getString("ingredient_id")));
+				ingredientAndPizzaJoin.setIngredientId(rs.getInt("ingredient_id"));
 				
 				ingredientsList.add(ingredientAndPizzaJoin);
 			}

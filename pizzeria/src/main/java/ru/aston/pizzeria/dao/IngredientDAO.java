@@ -17,7 +17,7 @@ public class IngredientDAO {
 	public Ingredient findById(int id) {
 		Ingredient ingredient = null;
 		try {
-			String query = "SELECT name FROM Ingredient WHERE id=?";
+			String query = "SELECT * FROM Ingredient WHERE id=?";
 			PreparedStatement ps = connection.prepareStatement(query);
 			ps.setInt(1, id);
 			ResultSet rs = ps.executeQuery();
@@ -39,7 +39,7 @@ public class IngredientDAO {
 		List<Ingredient> ingredientList = new ArrayList<>();
 		try {
 			Statement statement = connection.createStatement();
-			String query = "SELECT name FROM Ingredient";
+			String query = "SELECT * FROM Ingredient";
 			ResultSet rs = statement.executeQuery(query);
 			
 			while (rs.next()) {

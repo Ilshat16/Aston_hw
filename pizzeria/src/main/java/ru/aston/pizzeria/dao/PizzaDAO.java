@@ -17,7 +17,7 @@ public class PizzaDAO {
 	public Pizza findById(int id) {
 		Pizza pizza = null;
 		try {
-			String query = "SELECT name FROM Pizza WHERE id=?";
+			String query = "SELECT * FROM Pizza WHERE id=?";
 			PreparedStatement ps = connection.prepareStatement(query);
 			ps.setInt(1, id);
 			ResultSet rs = ps.executeQuery();
@@ -39,7 +39,7 @@ public class PizzaDAO {
 		List<Pizza> pizzaList = new ArrayList<>();
 		try {
 			Statement statement = connection.createStatement();
-			String query = "SELECT name FROM Pizza";
+			String query = "SELECT * FROM Pizza";
 			ResultSet rs = statement.executeQuery(query);
 			
 			while (rs.next()) {
