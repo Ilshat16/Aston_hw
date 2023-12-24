@@ -1,32 +1,29 @@
 package ru.aston.pizzeria.configs;
 
+import java.awt.Menu;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+
+import ru.aston.pizzeria.models.Ingredient;
+import ru.aston.pizzeria.models.IngredientAndPizzaJoin;
+import ru.aston.pizzeria.models.Pizza;
+
 public class DBConnection {
-	private static final String URL = "jdbc:postgresql://localhost:5432/pizzeria";
-	private static final String USERNAME = "postgres";
-	private static final String PASSWORD = "password";
 	
-	private static Connection connection;
+	private static SessionFactory sessionFactory;
 	
-	static {
-		try {
-			Class.forName("org.postgresql.Driver");
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public static Connection getConnection() {
-		try {
-			if (connection == null)
-				connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return connection;
+	public static SessionFactory getSessionFactory() {
+		Configuration configuration = new Configuration().addAnnotatedClass(Menu.class)
+				.addAnnotatedClass(Pizza.class)
+				.addAnnotatedClass(Ingredient.class)
+				.addAnnotatedClass(IngredientAndPizzaJoin.class);
+		if (sessionFactory == null)
+			sessionFactory = configuration.buildSessionFactory();
+		return sessionFactory;
 	}
 }
