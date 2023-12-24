@@ -11,7 +11,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "Ingredients_for_pizza")
-public class IngredientAndPizzaJoin {
+public class IngredientsForPizza {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")

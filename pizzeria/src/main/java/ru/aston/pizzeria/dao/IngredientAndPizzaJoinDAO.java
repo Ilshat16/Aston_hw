@@ -7,12 +7,12 @@ import org.hibernate.SessionFactory;
 
 import jakarta.persistence.Query;
 import ru.aston.pizzeria.configs.DBConnection;
-import ru.aston.pizzeria.models.IngredientAndPizzaJoin;
+import ru.aston.pizzeria.models.IngredientsForPizza;
 
 public class IngredientAndPizzaJoinDAO {
 	private SessionFactory sessionFactory = DBConnection.getSessionFactory();
 	
-	public List<IngredientAndPizzaJoin> findByPizzaId(int id) {
+	public List<IngredientsForPizza> findByPizzaId(int id) {
 		Session session = sessionFactory.getCurrentSession();
 		
 		session.beginTransaction();
@@ -20,7 +20,7 @@ public class IngredientAndPizzaJoinDAO {
 				"from IngredientAndPizzaJoin where pizzaId =: id",
 				IngredientAndPizzaJoinDAO.class);
 		query.setParameter("id", id);
-		List<IngredientAndPizzaJoin> ingredients = query.getResultList();
+		List<IngredientsForPizza> ingredients = query.getResultList();
 		session.getTransaction().commit();
 		
 		return ingredients;

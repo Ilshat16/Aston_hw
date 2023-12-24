@@ -10,7 +10,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 import ru.aston.pizzeria.models.Ingredient;
-import ru.aston.pizzeria.models.IngredientAndPizzaJoin;
+import ru.aston.pizzeria.models.IngredientsForPizza;
 import ru.aston.pizzeria.models.Pizza;
 
 public class DBConnection {
@@ -21,7 +21,7 @@ public class DBConnection {
 		Configuration configuration = new Configuration().addAnnotatedClass(Menu.class)
 				.addAnnotatedClass(Pizza.class)
 				.addAnnotatedClass(Ingredient.class)
-				.addAnnotatedClass(IngredientAndPizzaJoin.class);
+				.addAnnotatedClass(IngredientsForPizza.class);
 		if (sessionFactory == null)
 			sessionFactory = configuration.buildSessionFactory();
 		return sessionFactory;

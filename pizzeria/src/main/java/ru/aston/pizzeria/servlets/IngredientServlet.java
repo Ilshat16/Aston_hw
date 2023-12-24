@@ -9,7 +9,7 @@ import ru.aston.pizzeria.dao.IngredientAndPizzaJoinDAO;
 import ru.aston.pizzeria.dao.IngredientDAO;
 import ru.aston.pizzeria.dao.PizzaDAO;
 import ru.aston.pizzeria.models.Ingredient;
-import ru.aston.pizzeria.models.IngredientAndPizzaJoin;
+import ru.aston.pizzeria.models.IngredientsForPizza;
 import ru.aston.pizzeria.models.Pizza;
 
 import java.io.IOException;
@@ -34,7 +34,7 @@ public class IngredientServlet extends HttpServlet {
 		
 		int pizzaId = Integer.parseInt(request.getParameter("id"));
 		Pizza pizza = pizzaDAO.findById(pizzaId);
-		List<IngredientAndPizzaJoin> ingredientsList = ingredientsDAO.findByPizzaId(pizzaId);
+		List<IngredientsForPizza> ingredientsList = ingredientsDAO.findByPizzaId(pizzaId);
 		
 		printWriter.write("Ингредиенты пиццы " + pizza.getName() + ":" + "<br/>");
 		for (int i = 0; i < ingredientsList.size(); i++) {
