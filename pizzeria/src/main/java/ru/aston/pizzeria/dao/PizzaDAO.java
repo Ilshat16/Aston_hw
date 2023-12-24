@@ -1,59 +1,34 @@
 package ru.aston.pizzeria.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 
 import ru.aston.pizzeria.configs.DBConnection;
 import ru.aston.pizzeria.models.Pizza;
 
 public class PizzaDAO {
-	private Connection connection = DBConnection.getConnection();
+	private SessionFactory sessionFactory = DBConnection.getSessionFactory();
 	
 	public Pizza findById(int id) {
-		Pizza pizza = null;
-		try {
-			String query = "SELECT * FROM Pizza WHERE id=?";
-			PreparedStatement ps = connection.prepareStatement(query);
-			ps.setInt(1, id);
-			ResultSet rs = ps.executeQuery();
-			rs.next();
-			
-			pizza = new Pizza();
-			pizza.setId(id);
-			pizza.setName(rs.getString("name"));
-			
-			rs.close();
-			ps.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		Session session = sessionFactory.getCurrentSession();
+		
+		session.beginTransaction();
+		Pizza pizza = session.get(Pizza.class, id);
+		session.getTransaction().commit();
+		
 		return pizza;
 	}
 	
 	public List<Pizza> findAll() {
-		List<Pizza> pizzaList = new ArrayList<>();
-		try {
-			Statement statement = connection.createStatement();
-			String query = "SELECT * FROM Pizza";
-			ResultSet rs = statement.executeQuery(query);
-			
-			while (rs.next()) {
-				Pizza pizza = new Pizza();
-				pizza.setId(rs.getInt("id"));
-				pizza.setName(rs.getString("name"));
-				pizzaList.add(pizza);
-			}
-			
-			rs.close();
-			statement.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		Session session = sessionFactory.getCurrentSession();
+		
+		session.beginTransaction();
+		List<Pizza> pizzaList = session
+				.createQuery("from Pizza", Pizza.class)
+				.getResultList();
+		session.getTransaction().commit();
 		
 		return pizzaList;
 	}

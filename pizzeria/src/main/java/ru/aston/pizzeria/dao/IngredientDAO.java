@@ -8,52 +8,34 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+
 import ru.aston.pizzeria.configs.DBConnection;
 import ru.aston.pizzeria.models.Ingredient;
 
 public class IngredientDAO {
-	private Connection connection = DBConnection.getConnection();
+	private SessionFactory sessionFactory = DBConnection.getSessionFactory();
 	
 	public Ingredient findById(int id) {
-		Ingredient ingredient = null;
-		try {
-			String query = "SELECT * FROM Ingredient WHERE id=?";
-			PreparedStatement ps = connection.prepareStatement(query);
-			ps.setInt(1, id);
-			ResultSet rs = ps.executeQuery();
-			rs.next();
-			
-			ingredient = new Ingredient();
-			ingredient.setId(id);
-			ingredient.setName(rs.getString("name"));
-			
-			rs.close();
-			ps.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		Session session = sessionFactory.getCurrentSession();
+		
+		session.beginTransaction();
+		Ingredient ingredient = session.get(Ingredient.class, id);
+		session.getTransaction().commit();
+		
 		return ingredient;
 	}
 	
 	public List<Ingredient> findAll() {
-		List<Ingredient> ingredientList = new ArrayList<>();
-		try {
-			Statement statement = connection.createStatement();
-			String query = "SELECT * FROM Ingredient";
-			ResultSet rs = statement.executeQuery(query);
-			
-			while (rs.next()) {
-				Ingredient ingredient = new Ingredient();
-				ingredient.setId(rs.getInt("id"));
-				ingredient.setName(rs.getString("name"));
-				ingredientList.add(ingredient);
-			}
-			
-			rs.close();
-			statement.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		Session session = sessionFactory.getCurrentSession();
+		
+		session.beginTransaction();
+		List<Ingredient> ingredientList = session
+				.createQuery("from Ingredient", Ingredient.class)
+				.getResultList();
+		session.getTransaction().commit();
+		
 		return ingredientList;
 	}
 	
