@@ -13,6 +13,7 @@ create table Ingredient (
 );
 
 create table Ingredients_for_pizza(
+	id Serial,
 	pizza_id int,
 	ingredient_id int
 );
