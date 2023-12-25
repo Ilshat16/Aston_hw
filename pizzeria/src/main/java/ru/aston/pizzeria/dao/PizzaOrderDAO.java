@@ -4,47 +4,44 @@ import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-
 import jakarta.persistence.Query;
 import ru.aston.pizzeria.configs.DBConnection;
-import ru.aston.pizzeria.models.Ingredient;
 import ru.aston.pizzeria.models.Pizza;
+import ru.aston.pizzeria.models.PizzaOrder;
 
-public class PizzaDAO {
+public class PizzaOrderDAO {
 	private SessionFactory sessionFactory = DBConnection.getSessionFactory();
 	
-	public Pizza findById(int id) {
+	public PizzaOrder findById(int id) {
 		Session session = sessionFactory.getCurrentSession();
 		
 		session.beginTransaction();
-		Pizza pizza = session.get(Pizza.class, id);
+		PizzaOrder pizzaOrder = session.get(PizzaOrder.class, id);
 		session.getTransaction().commit();
 		
-		return pizza;
+		return pizzaOrder;
 	}
 	
-	public List<Pizza> findAll() {
+	public List<PizzaOrder> findAll() {
 		Session session = sessionFactory.getCurrentSession();
 		
 		session.beginTransaction();
-		List<Pizza> pizzaList = session
-				.createQuery("from Pizza", Pizza.class)
-				.getResultList();
+		List<PizzaOrder> orders = session.createQuery("FROM PizzaOrder", PizzaOrder.class).getResultList();
 		session.getTransaction().commit();
-		
-		return pizzaList;
+		return orders;
 	}
 	
-	public List<Ingredient> getIngredients(int id) {
+	public List<Pizza> getPizzas(int id) {
 		Session session = sessionFactory.getCurrentSession();
 		
 		session.beginTransaction();
-		String hql = "SELECT p FROM Pizza p JOIN FETCH p.ingredients WHERE p.id = :id";
-		Query query = session.createQuery(hql, Pizza.class).setParameter("id", id);
-		List<Pizza> pizza = query.getResultList();
-		List<Ingredient> ingredients = pizza.get(0).getIngredients();
+		String hql = "SELECT p FROM PizzaOrder p JOIN FETCH p.pizzas WHERE p.id = :id";
+		Query query = session.createQuery(hql, PizzaOrder.class).setParameter("id", id);
+		List<PizzaOrder> orders = query.getResultList();
+		List<Pizza> pizzas = orders.get(0).getPizzas();
 		session.getTransaction().commit();
 		
-		return ingredients;
+		return pizzas;
 	}
+
 }

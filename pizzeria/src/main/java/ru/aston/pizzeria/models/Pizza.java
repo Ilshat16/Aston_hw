@@ -1,13 +1,16 @@
 package ru.aston.pizzeria.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
@@ -25,7 +28,14 @@ public class Pizza {
 	private String name;
 	
 	@ManyToOne
-	@JoinColumn(name = "menu_id", referencedColumnName = "id")
-	private Menu menu;
-//	private List<Ingredient> ingredients;
+	@JoinColumn(name = "customer_id", referencedColumnName = "id")
+	private PizzaOrder pizzaOrder;
+	
+	@ManyToMany(mappedBy = "pizzas")
+	private List<Ingredient> ingredients = new ArrayList<>();
+	
+	public void addIngredient(Ingredient ingredient) {
+		ingredients.add(ingredient);
+		ingredient.getPizzas().add(null);
+	}
 }

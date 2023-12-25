@@ -1,16 +1,16 @@
+drop table if exists Ingredients_for_pizza;
 drop table if exists Pizza;
 drop table if exists Ingredient;
-drop table if exists Ingredients_for_pizza;
-drop table if exists Menu;
+drop table if exists Pizza_order;
 
-create table Menu (
+create table Pizza_order (
 	id Serial primary key,
-	name varchar
+	customer_name varchar
 );
 
 create table Pizza (
     id Serial primary key,
-    menu_id int references Menu(id),
+    customer_id int references Pizza_order(id),
     name varchar
 );
 
@@ -20,17 +20,19 @@ create table Ingredient (
 );
 
 create table Ingredients_for_pizza(
-	id Serial primary key,
 	pizza_id int references Pizza(id),
-	ingredient_id int references Ingredient(id)
+	ingredient_id int references Ingredient(id),
+	primary key(pizza_id, ingredient_id)
 );
 
 
 	
-insert into Menu(name) values
-	('Pizza'),
-	('Dinkes'),
-	('Desserts');
+insert into Pizza_order(customer_name) values
+	('Jhon'),
+	('Tom'),
+	('Kate'),
+	('Bob'),
+	('Lili');
 
 insert into Ingredient(name) values
 	('sassuage'),
@@ -44,15 +46,15 @@ insert into Ingredient(name) values
 	('bacon'),
 	('fish');
 
-insert into Pizza(menu_id, name) values
-	('1', 'Sassuage'),
-	('1', 'Mushrooms'),
-	('1', 'Cheese'),
-	('1', 'Chiken'),
-	('1', 'Pineapple'),
-	('1', 'Cucumber'),
-	('1', 'Bacon'),
-	('1', 'Fish');
+insert into Pizza(customer_id, name) values
+	(1, 'Sassuage'),
+	(2, 'Mushrooms'),
+	(1, 'Cheese'),
+	(3, 'Chiken'),
+	(4, 'Pineapple'),
+	(2, 'Cucumber'),
+	(3, 'Bacon'),
+	(5, 'Fish');
 
 insert into Ingredients_for_pizza(pizza_id, ingredient_id) values
 	(1, 1),
