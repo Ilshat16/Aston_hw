@@ -11,7 +11,7 @@ import ru.aston.pizzeria.models.Ingredient;
 import ru.aston.pizzeria.models.Pizza;
 
 public class PizzaDAO {
-	private SessionFactory sessionFactory = DBConnection.getSessionFactory();
+	private SessionFactory sessionFactory = DBConnection.getInstance().getSessionFactory();
 	
 	public Pizza findById(int id) {
 		Session session = sessionFactory.getCurrentSession();

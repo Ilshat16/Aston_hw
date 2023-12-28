@@ -9,7 +9,7 @@ import ru.aston.pizzeria.configs.DBConnection;
 import ru.aston.pizzeria.models.Ingredient;
 
 public class IngredientDAO {
-	private SessionFactory sessionFactory = DBConnection.getSessionFactory();
+	private SessionFactory sessionFactory = DBConnection.getInstance().getSessionFactory();
 	
 	public Ingredient findById(int id) {
 		Session session = sessionFactory.getCurrentSession();

@@ -8,10 +8,20 @@ create table Pizza_order (
 	customer_name varchar
 );
 
+create table Food(
+	id Serial primary key,
+	name varchar
+);
+
 create table Pizza (
     id Serial primary key,
     customer_id int references Pizza_order(id),
     name varchar
+);
+
+create table Drink (
+	id Serial primary key references Food(id),
+	volume int
 );
 
 create table Ingredient (
@@ -25,8 +35,6 @@ create table Ingredients_for_pizza(
 	primary key(pizza_id, ingredient_id)
 );
 
-
-	
 insert into Pizza_order(customer_name) values
 	('Jhon'),
 	('Tom'),

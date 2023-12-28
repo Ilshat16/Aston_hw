@@ -14,14 +14,26 @@ import ru.aston.pizzeria.models.Pizza;
 import ru.aston.pizzeria.models.PizzaOrder;
 
 public class DBConnection {
-	
-	private static SessionFactory sessionFactory;
-	
-	public static SessionFactory getSessionFactory() {
-		Configuration configuration = new Configuration().addAnnotatedClass(Menu.class)
-				.addAnnotatedClass(Pizza.class)
-				.addAnnotatedClass(Ingredient.class)
-				.addAnnotatedClass(PizzaOrder.class);
-		return configuration.buildSessionFactory();
+	  private static DBConnection instance;
+	  private SessionFactory sessionFactory;
+
+	  private DBConnection(){
+		  Configuration configuration = new Configuration().addAnnotatedClass(Menu.class)
+					.addAnnotatedClass(Pizza.class)
+					.addAnnotatedClass(Ingredient.class)
+					.addAnnotatedClass(PizzaOrder.class);
+		  this.sessionFactory = configuration.buildSessionFactory();
+	  }
+	  public SessionFactory getSessionFactory() {
+	    return sessionFactory;
+	  }
+	  public static DBConnection getInstance(){
+	    if (instance == null) {
+	      instance = new DBConnection();
+	    } else if (instance.getSessionFactory().isClosed()) {
+	      instance = new DBConnection();
+	    }
+	    return instance;
+	  }
+	  
 	}
-}

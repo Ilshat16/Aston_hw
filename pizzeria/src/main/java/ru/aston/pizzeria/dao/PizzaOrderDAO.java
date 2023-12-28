@@ -10,7 +10,7 @@ import ru.aston.pizzeria.models.Pizza;
 import ru.aston.pizzeria.models.PizzaOrder;
 
 public class PizzaOrderDAO {
-	private SessionFactory sessionFactory = DBConnection.getSessionFactory();
+	private SessionFactory sessionFactory = DBConnection.getInstance().getSessionFactory();
 	
 	public PizzaOrder findById(int id) {
 		Session session = sessionFactory.getCurrentSession();
