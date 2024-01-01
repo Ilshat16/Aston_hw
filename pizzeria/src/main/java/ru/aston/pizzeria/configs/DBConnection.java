@@ -1,17 +1,11 @@
 package ru.aston.pizzeria.configs;
 
 import java.awt.Menu;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.util.Properties;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-import ru.aston.pizzeria.models.Ingredient;
-import ru.aston.pizzeria.models.Pizza;
-import ru.aston.pizzeria.models.PizzaOrder;
+import ru.aston.pizzeria.models.*;
 
 public class DBConnection {
 	  private static DBConnection instance;
@@ -21,7 +15,8 @@ public class DBConnection {
 		  Configuration configuration = new Configuration().addAnnotatedClass(Menu.class)
 					.addAnnotatedClass(Pizza.class)
 					.addAnnotatedClass(Ingredient.class)
-					.addAnnotatedClass(PizzaOrder.class);
+					.addAnnotatedClass(PizzaOrder.class)
+				  	.addAnnotatedClass(Drink.class);
 		  this.sessionFactory = configuration.buildSessionFactory();
 	  }
 	  public SessionFactory getSessionFactory() {

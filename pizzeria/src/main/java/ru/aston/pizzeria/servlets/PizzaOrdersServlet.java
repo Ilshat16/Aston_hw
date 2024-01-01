@@ -9,10 +9,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import ru.aston.pizzeria.dao.PizzaDAO;
 import ru.aston.pizzeria.dao.PizzaOrderDAO;
-import ru.aston.pizzeria.models.Pizza;
 import ru.aston.pizzeria.models.PizzaOrder;
 
 @WebServlet("/pizza_order")

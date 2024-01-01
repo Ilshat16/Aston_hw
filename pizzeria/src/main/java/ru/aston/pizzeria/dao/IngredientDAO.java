@@ -17,7 +17,8 @@ public class IngredientDAO {
 		session.beginTransaction();
 		Ingredient ingredient = session.get(Ingredient.class, id);
 		session.getTransaction().commit();
-		
+
+		session.close();
 		return ingredient;
 	}
 	
@@ -29,7 +30,8 @@ public class IngredientDAO {
 				.createQuery("from Ingredient", Ingredient.class)
 				.getResultList();
 		session.getTransaction().commit();
-		
+
+		session.close();
 		return ingredientList;
 	}
 	

@@ -6,7 +6,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import jakarta.persistence.Query;
 import ru.aston.pizzeria.configs.DBConnection;
-import ru.aston.pizzeria.models.Pizza;
+import ru.aston.pizzeria.models.Food;
 import ru.aston.pizzeria.models.PizzaOrder;
 
 public class PizzaOrderDAO {
@@ -18,7 +18,8 @@ public class PizzaOrderDAO {
 		session.beginTransaction();
 		PizzaOrder pizzaOrder = session.get(PizzaOrder.class, id);
 		session.getTransaction().commit();
-		
+
+		session.close();
 		return pizzaOrder;
 	}
 	
@@ -28,20 +29,33 @@ public class PizzaOrderDAO {
 		session.beginTransaction();
 		List<PizzaOrder> orders = session.createQuery("FROM PizzaOrder", PizzaOrder.class).getResultList();
 		session.getTransaction().commit();
+
+		session.close();
 		return orders;
 	}
 	
-	public List<Pizza> getPizzas(int id) {
+	public PizzaOrder getPizzaOrderWithFoods(int id) {
 		Session session = sessionFactory.getCurrentSession();
 		
 		session.beginTransaction();
-		String hql = "SELECT p FROM PizzaOrder p JOIN FETCH p.pizzas WHERE p.id = :id";
+		String hql = "FROM PizzaOrder p JOIN FETCH p.foods WHERE p.id = :id";
 		Query query = session.createQuery(hql, PizzaOrder.class).setParameter("id", id);
-		List<PizzaOrder> orders = query.getResultList();
-		List<Pizza> pizzas = orders.get(0).getPizzas();
+		List<PizzaOrder> pizzaOrders = query.getResultList();
+		PizzaOrder pizzaOrder = pizzaOrders.get(0);
 		session.getTransaction().commit();
-		
-		return pizzas;
+
+		session.close();
+		return pizzaOrder;
+	}
+
+	public void saveOrder(PizzaOrder pizzaOrder) {
+		Session session = sessionFactory.getCurrentSession();
+
+		session.beginTransaction();
+		session.persist(pizzaOrder);
+		session.getTransaction().commit();
+
+		session.close();
 	}
 
 }
