@@ -14,22 +14,28 @@ import ru.aston.pizzeria.models.*;
 public class FoodDAO {
 	private SessionFactory sessionFactory = DBConnection.getInstance().getSessionFactory();
 	
-	public Pizza findPizzaById(int id) {
+	public Pizza findPizzaByName(String name) {
 		Session session = sessionFactory.getCurrentSession();
 		
 		session.beginTransaction();
-		Pizza pizza = session.get(Pizza.class, id);
+		String hql = "from Pizza p JOIN FETCH p.ingredients where p.name =: name";
+		Query query = session.createQuery(hql, Pizza.class).setParameter("name", name);
+		List<Pizza> resultList = query.getResultList();
+		Pizza pizza = resultList.get(0);
 		session.getTransaction().commit();
 
 		session.close();
 		return pizza;
 	}
 
-	public Drink findDrinkById(int id) {
+	public Drink findDrinkByName(String name) {
 		Session session = sessionFactory.getCurrentSession();
 
 		session.beginTransaction();
-		Drink drink = session.get(Drink.class, id);
+		String hql = "from Drink d where d.name =: name";
+		Query query = session.createQuery(hql, Drink.class).setParameter("name", name);
+		List<Drink> resultList = query.getResultList();
+		Drink drink = resultList.get(0);
 		session.getTransaction().commit();
 
 		session.close();
@@ -60,32 +66,6 @@ public class FoodDAO {
 
 		session.close();
 		return drinkList;
-	}
-	
-	public List<Pizza> getPizzaWithIngredients(PizzaOrder pizzaOrder) {
-		Session session = sessionFactory.getCurrentSession();
-		
-		session.beginTransaction();
-		String hql = "FROM Pizza p JOIN FETCH p.ingredients WHERE p.pizzaOrder = :pizzaOrder";
-		Query query = session.createQuery(hql, Pizza.class).setParameter("pizzaOrder", pizzaOrder);
-		List<Pizza> pizzas = query.getResultList();
-		session.getTransaction().commit();
-
-		session.close();
-		return pizzas;
-	}
-
-	public List<Drink> getDrink(PizzaOrder pizzaOrder) {
-		Session session = sessionFactory.getCurrentSession();
-		session.beginTransaction();
-
-		String hql = "from Drink d where d.pizzaOrder = :pizzaOrder";
-		Query query = session.createQuery(hql, Drink.class).setParameter("pizzaOrder", pizzaOrder);
-		List<Drink> drinks = query.getResultList();
-
-		session.getTransaction().commit();
-		session.close();
-		return drinks;
 	}
 
 	public void savePizza(Pizza pizza) {
