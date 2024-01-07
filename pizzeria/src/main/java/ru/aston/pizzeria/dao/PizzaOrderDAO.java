@@ -5,10 +5,12 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import jakarta.persistence.Query;
+import org.springframework.stereotype.Service;
 import ru.aston.pizzeria.configs.DBConnection;
 import ru.aston.pizzeria.models.Food;
 import ru.aston.pizzeria.models.PizzaOrder;
 
+@Service
 public class PizzaOrderDAO {
 	private SessionFactory sessionFactory = DBConnection.getInstance().getSessionFactory();
 	

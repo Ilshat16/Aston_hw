@@ -6,9 +6,11 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import jakarta.persistence.Query;
+import org.springframework.stereotype.Service;
 import ru.aston.pizzeria.configs.DBConnection;
 import ru.aston.pizzeria.models.*;
 
+@Service
 public class FoodDAO {
 	private SessionFactory sessionFactory = DBConnection.getInstance().getSessionFactory();
 	

@@ -5,9 +5,11 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
+import org.springframework.stereotype.Service;
 import ru.aston.pizzeria.configs.DBConnection;
 import ru.aston.pizzeria.models.Ingredient;
 
+@Service
 public class IngredientDAO {
 	private SessionFactory sessionFactory = DBConnection.getInstance().getSessionFactory();
 	
