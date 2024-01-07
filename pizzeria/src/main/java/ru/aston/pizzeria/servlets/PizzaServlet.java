@@ -29,9 +29,8 @@ public class PizzaServlet extends HttpServlet {
 		int customerId = Integer.parseInt(request.getParameter("id"));
 		PizzaOrder pizzaOrder = pizzaOrderDAO.findById(customerId);
 		List<Pizza> pizzas = foodDAO.getPizzaWithIngredients(pizzaOrder);
-		System.out.println(pizzas.size());
 		List<Drink> drinks = foodDAO.getDrink(pizzaOrder);
-		System.out.println(drinks.size());
+
 		for (Drink drink : drinks)
 			printWriter.write("Напиток " + drink.getName() + "<br/>");
 		for (Pizza pizza : pizzas) {
