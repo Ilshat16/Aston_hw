@@ -6,7 +6,8 @@
 </head>
 <body>
     <div th:each="orderer : ${orderers}">
-        <p th:text="${orderer.customerName}">orderer</p>
+        <a th:href="@{/pizza_order/{id}(id=${orderer.id})}"
+           th:text="${orderer.id} + '. ' + ${orderer.customerName}">orderer</a>
     </div>
 </body>
 </html>

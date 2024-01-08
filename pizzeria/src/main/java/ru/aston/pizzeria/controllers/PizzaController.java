@@ -21,7 +21,7 @@ public class PizzaController {
 
     @GetMapping("/{name}")
     public String getIngredients(@PathVariable("name") String name, Model model) {
-        Pizza pizza = foodDAO.findPizzaByName(name);
+        Pizza pizza = foodDAO.findPizzaByNameWithIngredients(name);
         model.addAttribute("pizza", pizza);
         return "pizza";
     }

@@ -5,6 +5,7 @@
     <title>Pizza</title>
 </head>
 <body>
+    <p th:text="${pizza.name} + ' pizza ingredients:'">pizza</p>
     <div th:each="ingredient : ${pizza.ingredients}">
         <p th:text="${ingredient.name}">ingredient</p>
     </div>

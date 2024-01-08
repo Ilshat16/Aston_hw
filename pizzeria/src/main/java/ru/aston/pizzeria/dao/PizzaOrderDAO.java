@@ -1,63 +1,39 @@
 package ru.aston.pizzeria.dao;
 
+
 import java.util.List;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import jakarta.persistence.Query;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.aston.pizzeria.configs.DBConnection;
-import ru.aston.pizzeria.models.Food;
+import org.springframework.transaction.annotation.Transactional;
+
 import ru.aston.pizzeria.models.PizzaOrder;
+import ru.aston.pizzeria.repositories.PizzaOrderRepository;
 
 @Service
-public class PizzaOrderDAO {
-	private SessionFactory sessionFactory = DBConnection.getInstance().getSessionFactory();
-	
-	public PizzaOrder findById(int id) {
-		Session session = sessionFactory.getCurrentSession();
-		
-		session.beginTransaction();
-		PizzaOrder pizzaOrder = session.get(PizzaOrder.class, id);
-		session.getTransaction().commit();
+@Transactional
+public class PizzaOrderDAO{
+	private final PizzaOrderRepository pizzaOrderRepository;
 
-		session.close();
-		return pizzaOrder;
+	@Autowired
+	public PizzaOrderDAO(PizzaOrderRepository pizzaOrderRepository) {
+		this.pizzaOrderRepository = pizzaOrderRepository;
+	}
+
+	public PizzaOrder findById(int id) {
+		return pizzaOrderRepository.findById(id).orElse(null);
 	}
 	
 	public List<PizzaOrder> findAll() {
-		Session session = sessionFactory.getCurrentSession();
-		
-		session.beginTransaction();
-		List<PizzaOrder> orders = session.createQuery("FROM PizzaOrder", PizzaOrder.class).getResultList();
-		session.getTransaction().commit();
-
-		session.close();
-		return orders;
+		return pizzaOrderRepository.findAll();
 	}
-	
-	public PizzaOrder getPizzaOrderWithFoods(int id) {
-		Session session = sessionFactory.getCurrentSession();
-		
-		session.beginTransaction();
-		String hql = "FROM PizzaOrder p JOIN FETCH p.foods WHERE p.id = :id";
-		Query query = session.createQuery(hql, PizzaOrder.class).setParameter("id", id);
-		List<PizzaOrder> pizzaOrders = query.getResultList();
-		PizzaOrder pizzaOrder = pizzaOrders.get(0);
-		session.getTransaction().commit();
 
-		session.close();
-		return pizzaOrder;
+	public PizzaOrder getPizzaOrderWithFoods(int id) {
+		return pizzaOrderRepository.getPizzaOrderWithFoods(id);
 	}
 
 	public void saveOrder(PizzaOrder pizzaOrder) {
-		Session session = sessionFactory.getCurrentSession();
 
-		session.beginTransaction();
-		session.persist(pizzaOrder);
-		session.getTransaction().commit();
-
-		session.close();
 	}
 
 }
