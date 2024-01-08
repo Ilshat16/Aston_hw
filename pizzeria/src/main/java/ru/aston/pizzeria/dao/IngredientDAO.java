@@ -2,39 +2,28 @@ package ru.aston.pizzeria.dao;
 
 import java.util.List;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.aston.pizzeria.configs.DBConnection;
+import org.springframework.transaction.annotation.Transactional;
 import ru.aston.pizzeria.models.Ingredient;
+import ru.aston.pizzeria.repositories.IngredientRepository;
 
 @Service
+@Transactional
 public class IngredientDAO {
-	private SessionFactory sessionFactory = DBConnection.getInstance().getSessionFactory();
-	
-	public Ingredient findById(int id) {
-		Session session = sessionFactory.getCurrentSession();
-		
-		session.beginTransaction();
-		Ingredient ingredient = session.get(Ingredient.class, id);
-		session.getTransaction().commit();
+	private IngredientRepository ingredientRepository;
 
-		session.close();
-		return ingredient;
+	@Autowired
+	public IngredientDAO(IngredientRepository ingredientRepository) {
+		this.ingredientRepository = ingredientRepository;
+	}
+
+	public Ingredient findById(int id) {
+		return ingredientRepository.findById(id).orElse(null);
 	}
 	
 	public List<Ingredient> findAll() {
-		Session session = sessionFactory.getCurrentSession();
-		
-		session.beginTransaction();
-		List<Ingredient> ingredientList = session
-				.createQuery("from Ingredient", Ingredient.class)
-				.getResultList();
-		session.getTransaction().commit();
-
-		session.close();
-		return ingredientList;
+		return ingredientRepository.findAll();
 	}
 	
 }

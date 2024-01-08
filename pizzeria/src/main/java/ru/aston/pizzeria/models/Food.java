@@ -2,8 +2,6 @@ package ru.aston.pizzeria.models;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 @Data
 @Entity
@@ -18,7 +16,7 @@ public abstract class Food {
 
 	@Column(name = "food_name")
 	private String name;
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "customer_id", referencedColumnName = "id")
 	private PizzaOrder pizzaOrder;
 }
