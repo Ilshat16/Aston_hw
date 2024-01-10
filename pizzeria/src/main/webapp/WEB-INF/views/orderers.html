@@ -9,5 +9,7 @@
         <a th:href="@{/pizza_order/{id}(id=${orderer.id})}"
            th:text="${orderer.id} + '. ' + ${orderer.customerName}">orderer</a>
     </div>
+    <br/>
+    <a th:href="@{/pizza_order/newOrderer}">New order</a>
 </body>
 </html>

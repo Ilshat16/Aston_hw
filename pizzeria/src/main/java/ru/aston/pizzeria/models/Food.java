@@ -11,6 +11,7 @@ import lombok.Data;
 public abstract class Food {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@SequenceGenerator(name = "food_seq", sequenceName = "food_id_seq", allocationSize = 1)
 	@Column(name = "id")
 	private int id;
 

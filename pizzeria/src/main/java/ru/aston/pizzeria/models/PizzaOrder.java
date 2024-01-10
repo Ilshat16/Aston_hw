@@ -2,13 +2,7 @@ package ru.aston.pizzeria.models;
 
 import java.util.List;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Data
@@ -16,7 +10,8 @@ import lombok.Data;
 @Table(name = "Pizza_order")
 public class PizzaOrder {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pizza_order_seq")
+	@SequenceGenerator(name = "pizza_order_seq", sequenceName = "pizza_order_id_seq", allocationSize = 1)
 	@Column(name = "id")
 	private int id;
 	
@@ -25,5 +20,9 @@ public class PizzaOrder {
 	
 	@OneToMany(mappedBy = "pizzaOrder")
 	private List<Food> foods;
+
+	public void addFood(Food food) {
+		this.foods.add(food);
+	}
 
 }

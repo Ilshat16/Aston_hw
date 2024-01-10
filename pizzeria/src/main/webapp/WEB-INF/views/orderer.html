@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Orderer</title>
+</head>
+<body>
+    <p th:text="'Name: ' + ${pizzaOrder.customerName}">value</p>
+    <form th:method="GET" th:action="@{/pizza_order/{id}/foods(id=${pizzaOrder.id})}">
+        <input type="submit" value="Foods">
+    </form>
+    <br/>
+    <form th:method="DELETE" th:action="@{/pizza_order/{id}(id=${pizzaOrder.id})}">
+        <input type="submit" value="Delete">
+    </form>
+</body>
+</html>

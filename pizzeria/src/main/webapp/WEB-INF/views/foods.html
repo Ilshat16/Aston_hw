@@ -5,13 +5,14 @@
   <title>Order</title>
 </head>
 <body>
-  <p th:text="${pizzaOrder.customerName} + ' orders:'"></p>
-  <div th:each="pizza : ${pizzas}">
-    <a th:href="@{/pizza/{name}(name=${pizza.name})}"
-            th:text="${pizza.name}">food</a>
-  </div>
-  <div th:each="drink : ${drinks}">
-    <p th:text="${drink.name}">drink</p>
-  </div>
+<p th:text="${pizzaOrder.customerName} + ' orders:'"></p>
+<div th:each="pizza : ${pizzas}">
+  <a th:href="@{/food/{name}(name=${pizza.name})}"
+  th:text="${pizza.name}">pizza</a>
+</div>
+<div th:each="drink : ${drinks}">
+  <p th:text="${drink.name}">drink</p>
+</div>
+<a th:href="@{/pizza_order/{id}/foods/newFood(id=${pizzaOrder.id})}">Add food</a>
 </body>
 </html>

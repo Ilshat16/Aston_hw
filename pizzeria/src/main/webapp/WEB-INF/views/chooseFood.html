@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Choose food</title>
+</head>
+<body>
+    <h1>Choose food</h1>
+    <form th:action="@{/pizza_order/{id}/foods/newFood/pizza(id=${id})}">
+        <input type="submit" value="Pizza"/>
+    </form>
+    <form th:action="@{/pizza_order/{id}/foods/newFood/drink(id=${id})}">
+        <input type="submit" value="Drink"/>
+    </form>
+</body>
+</html>
