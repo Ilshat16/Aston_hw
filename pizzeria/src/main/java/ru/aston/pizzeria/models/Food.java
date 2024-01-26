@@ -13,11 +13,11 @@ public abstract class Food {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	@SequenceGenerator(name = "food_seq", sequenceName = "food_id_seq", allocationSize = 1)
 	@Column(name = "id")
-	private int id;
+	protected int id;
 
 	@Column(name = "food_name")
-	private String name;
+	protected String name;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "customer_id", referencedColumnName = "id")
-	private PizzaOrder pizzaOrder;
+	protected PizzaOrder pizzaOrder;
 }
